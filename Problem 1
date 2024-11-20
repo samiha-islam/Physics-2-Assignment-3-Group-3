@@ -1,0 +1,37 @@
+#include <stdio.h>
+#include <math.h>
+
+int main() {
+    double lambda, a, theta, max_theta = 0;
+    int m, max_index = 0;
+
+    for (int i = 1; i <= 3; i++) {
+        printf("Enter wavelength,order,and slit width for set %d: ", i);
+        scanf("%lf %d %lf", &lambda, &m, &a);
+
+        if (lambda < 380 || lambda > 750) {
+            printf("Out of range. Please enter a valid number.\n");
+            return 1;
+        }
+
+        lambda *= 1e-9;
+        a *= 1e-6;
+        double sin_theta = (m * lambda) / a;
+        if (sin_theta > 1.0) {
+            printf("Invalid calculation for set %d. sin(theta) exceeds 1.\n", i);
+            return 1;
+        }
+
+        theta = asin(sin_theta) * (180.0 / M_PI);
+        printf("Set %d: Theta = %.2f degrees\n", i, theta);
+
+        if (theta > max_theta) {
+            max_theta = theta;
+            max_index = i;
+        }
+    }
+
+    printf("The slit that bent the light most is Set %d with an angle of %.2f degrees.\n", max_index, max_theta);
+
+    return 0;
+}
